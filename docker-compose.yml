@@ -1,0 +1,18 @@
+services:
+  database:
+    image: pgvector/pgvector:pg17
+    container_name: focusbuddy-database
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: focusbuddy
+      POSTGRES_USER: focusbuddy_user
+      POSTGRES_PASSWORD: focusbuddy_password
+
+    ports:
+      - "5433:5432"
+    volumes:
+      - focusbuddy_database_data:/var/lib/postgresql/data
+
+volumes:
+  focusbuddy_database_data:
