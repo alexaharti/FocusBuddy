@@ -1,4 +1,11 @@
 package com.alexaharti.focusbuddy.course.repository;
 
-public class CourseRepository {
+import com.alexaharti.focusbuddy.course.entity.Course;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface CourseRepository extends JpaRepository<Course, Long> {
+
+    List<Course> findAllByOwnerIdOrderByCreatedAtDesc(Long ownerId);
 }

@@ -1,47 +1,47 @@
-package com.alexaharti.focusbuddy.course.entity;
+package com.alexaharti.focusbuddy.user.entity;
 
-import com.alexaharti.focusbuddy.user.entity.AppUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
 
+
+
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "courses")
-public class Course {
+@Table(
+        name = "app_users",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_app_users_email",
+                        columnNames = "email"
+                )
+        }
+)
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "owner_id",
-            nullable = false
-    )
-    private AppUser owner;
+    @Column(nullable = false, length = 255)
+    private String email;
 
-    @Column(nullable = false, length = 150)
-    private String name;
+    @Column(name = "password_hash", nullable = false, length = 255)
+    private String passwordHash;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
-
-    @Column(length = 20)
-    private String color;
+    @Column(name = "display_name", nullable = false, length = 100)
+    private String displayName;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
