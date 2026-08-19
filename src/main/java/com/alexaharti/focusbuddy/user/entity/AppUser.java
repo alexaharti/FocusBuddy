@@ -1,5 +1,8 @@
 package com.alexaharti.focusbuddy.user.entity;
 
+import com.alexaharti.focusbuddy.course.entity.Course;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +15,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -49,6 +54,13 @@ public class AppUser {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    @OneToMany(
+            mappedBy = "owner",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Course> courses = new ArrayList<>();
+
     @jakarta.persistence.PrePersist
     protected void onCreate() {
         Instant now = Instant.now();
@@ -59,5 +71,15 @@ public class AppUser {
     @jakarta.persistence.PreUpdate
     protected void onUpdate() {
         updatedAt = Instant.now();
+    }
+
+    public void addCourse(Course course) {
+        courses.add(course);
+        course.setOwner(this);
+    }
+
+    public void removeCourse(Course course) {
+        courses.remove(course);
+        course.setOwner(null);
     }
 }

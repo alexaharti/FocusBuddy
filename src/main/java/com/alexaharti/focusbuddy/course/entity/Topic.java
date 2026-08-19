@@ -1,5 +1,8 @@
 package com.alexaharti.focusbuddy.course.entity;
 
+import com.alexaharti.focusbuddy.ai.document.Document;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,6 +57,14 @@ public class Topic {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    @OneToOne(
+            mappedBy = "topic",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Document document;
+
     @jakarta.persistence.PrePersist
     protected void onCreate() {
         Instant now = Instant.now();
@@ -68,5 +79,13 @@ public class Topic {
     @jakarta.persistence.PreUpdate
     protected void onUpdate() {
         updatedAt = Instant.now();
+    }
+
+    public void attachDocument(Document document) {
+        this.document = document;
+
+        if (document != null) {
+            document.setTopic(this);
+        }
     }
 }

@@ -14,6 +14,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import java.time.Instant;
 
 @Getter
@@ -49,6 +55,13 @@ public class Course {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
+    @OneToMany(
+            mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Topic> topics = new ArrayList<>();
+
     @jakarta.persistence.PrePersist
     protected void onCreate() {
         Instant now = Instant.now();
@@ -59,5 +72,15 @@ public class Course {
     @jakarta.persistence.PreUpdate
     protected void onUpdate() {
         updatedAt = Instant.now();
+    }
+
+    public void addTopic(Topic topic) {
+        topics.add(topic);
+        topic.setCourse(this);
+    }
+
+    public void removeTopic(Topic topic) {
+        topics.remove(topic);
+        topic.setCourse(null);
     }
 }
