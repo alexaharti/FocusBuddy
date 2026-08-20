@@ -3,7 +3,7 @@ package com.alexaharti.focusbuddy.course.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record CreateCourseRequest(
+public record UpdateCourseRequest(
 
         @NotBlank(message = "Course name is required")
         @Size(max = 150, message = "Course name cannot exceed 150 characters")

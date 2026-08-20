@@ -1,4 +1,13 @@
 package com.alexaharti.focusbuddy.course.dto;
 
-public class CourseResponse {
+import java.time.Instant;
+
+public record CourseResponse(
+        Long id,
+        String name,
+        String description,
+        String color,
+        Instant createdAt,
+        Instant updatedAt
+) {
 }
