@@ -10,6 +10,7 @@ public record DocumentProcessingResponse(
         Integer pageCount,
         DocumentProcessingStatus processingStatus,
         int extractedCharacterCount,
+        int storedChunkCount,
         List<PagePreview> pagePreviews,
         Instant processedAt
 ) {

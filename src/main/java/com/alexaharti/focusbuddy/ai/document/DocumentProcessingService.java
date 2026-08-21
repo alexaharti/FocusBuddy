@@ -5,6 +5,10 @@ import com.alexaharti.focusbuddy.common.exception.ResourceNotFoundException;
 import com.alexaharti.focusbuddy.course.entity.Topic;
 import com.alexaharti.focusbuddy.course.repository.CourseRepository;
 import com.alexaharti.focusbuddy.course.repository.TopicRepository;
+import com.alexaharti.focusbuddy.ai.rag.DocumentChunk;
+import com.alexaharti.focusbuddy.ai.rag.DocumentChunkRepository;
+import com.alexaharti.focusbuddy.ai.rag.TextChunk;
+import com.alexaharti.focusbuddy.ai.rag.TextChunkingService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,17 +25,23 @@ public class DocumentProcessingService {
     private final TopicRepository topicRepository;
     private final DocumentRepository documentRepository;
     private final PdfExtractionService pdfExtractionService;
+    private final DocumentChunkRepository documentChunkRepository;
+    private final TextChunkingService textChunkingService;
 
     public DocumentProcessingService(
             CourseRepository courseRepository,
             TopicRepository topicRepository,
             DocumentRepository documentRepository,
-            PdfExtractionService pdfExtractionService
+            PdfExtractionService pdfExtractionService,
+            DocumentChunkRepository documentChunkRepository,
+            TextChunkingService textChunkingService
     ) {
         this.courseRepository = courseRepository;
         this.topicRepository = topicRepository;
         this.documentRepository = documentRepository;
         this.pdfExtractionService = pdfExtractionService;
+        this.documentChunkRepository = documentChunkRepository;
+        this.textChunkingService = textChunkingService;
     }
 
     @Transactional
@@ -66,6 +76,25 @@ public class DocumentProcessingService {
                     pdfExtractionService.extract(
                             document.getStoragePath()
                     );
+
+            List<TextChunk> textChunks =
+                    textChunkingService.createChunks(extraction);
+
+            documentChunkRepository.deleteAllByDocumentId(document.getId());
+            documentChunkRepository.flush();
+
+            List<DocumentChunk> entities = textChunks.stream()
+                    .map(textChunk -> {
+                        DocumentChunk chunk = new DocumentChunk();
+                        chunk.setDocument(document);
+                        chunk.setPageNumber(textChunk.pageNumber());
+                        chunk.setChunkIndex(textChunk.chunkIndex());
+                        chunk.setContent(textChunk.content());
+                        return chunk;
+                    })
+                    .toList();
+
+            documentChunkRepository.saveAll(entities);
 
             Instant processedAt = Instant.now();
 
@@ -102,6 +131,7 @@ public class DocumentProcessingService {
                     document.getPageCount(),
                     document.getProcessingStatus(),
                     characterCount,
+                    entities.size(),
                     previews,
                     processedAt
             );

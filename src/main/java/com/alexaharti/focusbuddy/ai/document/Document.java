@@ -8,6 +8,13 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+import com.alexaharti.focusbuddy.ai.rag.DocumentChunk;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -70,5 +77,22 @@ public class Document {
         if (processingStatus == null) {
             processingStatus = DocumentProcessingStatus.UPLOADED;
         }
+    }
+
+    @OneToMany(
+            mappedBy = "document",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<DocumentChunk> chunks = new ArrayList<>();
+
+    public void addChunk(DocumentChunk chunk) {
+        chunks.add(chunk);
+        chunk.setDocument(this);
+    }
+
+    public void clearChunks() {
+        chunks.forEach(chunk -> chunk.setDocument(null));
+        chunks.clear();
     }
 }
