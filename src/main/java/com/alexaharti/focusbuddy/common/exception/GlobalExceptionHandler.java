@@ -85,4 +85,42 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(response);
     }
+
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<ApiErrorResponse> handleResourceAlreadyExists(
+            ResourceAlreadyExistsException exception
+    ) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                Instant.now(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                exception.getMessage(),
+                Map.of()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+
+    @ExceptionHandler(
+            org.springframework.security.authentication
+                    .BadCredentialsException.class
+    )
+    public ResponseEntity<ApiErrorResponse> handleBadCredentials(
+            org.springframework.security.authentication
+                    .BadCredentialsException exception
+    ) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                Instant.now(),
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                "Invalid email or password",
+                Map.of()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
+    }
 }
