@@ -1,0 +1,40 @@
+:root {
+  --cream: #f5f0e6;
+  --sage: #a8b89a;
+  --deep-teal: #174c4f;
+  --terracotta: #c9785c;
+
+  --white: #ffffff;
+  --text: #243635;
+  --muted-text: #7a8581;
+  --border: #d9dfd8;
+
+  --background: var(--cream);
+  --foreground: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}

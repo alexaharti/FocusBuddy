@@ -1,0 +1,131 @@
+.wrapper {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 1000;
+}
+
+.devButton {
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: var(--deep-teal);
+    color: white;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+
+    box-shadow: 0 8px 24px rgba(36, 54, 53, 0.18);
+
+    cursor: pointer;
+}
+
+.panel {
+    position: absolute;
+    right: 0;
+    bottom: 62px;
+
+    width: 330px;
+    padding: 18px;
+
+    background: white;
+
+    border: 1px solid rgba(23, 76, 79, 0.12);
+    border-radius: 18px;
+
+    box-shadow: 0 16px 40px rgba(36, 54, 53, 0.16);
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+.header h3 {
+    margin: 0;
+    color: var(--deep-teal);
+    font-size: 16px;
+}
+
+.header p {
+    margin: 4px 0 0;
+    color: var(--muted-text);
+    font-size: 12px;
+}
+
+.closeButton {
+    border: none;
+    background: transparent;
+
+    color: var(--muted-text);
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.accounts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accountCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 12px;
+
+    background: var(--cream);
+
+    border: 1px solid rgba(23, 76, 79, 0.1);
+    border-radius: 12px;
+}
+
+.accountCard div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.accountCard strong {
+    color: var(--deep-teal);
+    font-size: 13px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.accountCard span {
+    color: var(--muted-text);
+    font-size: 11px;
+}
+
+.useButton {
+    flex-shrink: 0;
+
+    padding: 8px 12px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: var(--terracotta);
+    color: white;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
