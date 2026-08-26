@@ -34,3 +34,8 @@ build/
 
 # Locally uploaded PDFs
 uploads/
+
+# Local environment variables / secrets
+.env
+.env.*
+!.env.example

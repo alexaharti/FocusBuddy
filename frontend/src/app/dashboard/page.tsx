@@ -1,24 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import { useAuth } from "@/auth/useAuth";
 
-interface User {
-    id: number;
-    email: string;
-    displayName: string;
-}
-
-export default function DashboardPage() {
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        const storedUser =
-            localStorage.getItem("focusbuddy_user");
-
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+function DashboardContent() {
+    const { user } = useAuth();
 
     return (
         <main
@@ -28,13 +14,25 @@ export default function DashboardPage() {
                 padding: "60px",
             }}
         >
-            <h1 style={{ color: "var(--deep-teal)" }}>
-                Welcome, {user?.displayName ?? "FocusBuddy user"}
+            <h1
+                style={{
+                    color: "var(--deep-teal)",
+                }}
+            >
+                Welcome, {user?.displayName}
             </h1>
 
             <p>
-                Login works. The real dashboard comes next.
+                Authentication is now managed by AuthProvider.
             </p>
         </main>
+    );
+}
+
+export default function DashboardPage() {
+    return (
+        <ProtectedRoute>
+            <DashboardContent />
+        </ProtectedRoute>
     );
 }

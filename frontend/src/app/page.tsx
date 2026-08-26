@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "@/lib/auth";
+import { useAuth } from "@/auth/useAuth";
 import styles from "./page.module.css";
 import DevAccountSwitcher from "@/components/DevAccountSwitcher";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { signIn } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,21 +24,16 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await login(email, password);
 
-      localStorage.setItem(
-          "focusbuddy_access_token",
-          response.accessToken
-      );
+      await signIn(email, password);
+      router.replace("/dashboard");
 
-      localStorage.setItem(
-          "focusbuddy_user",
-          JSON.stringify(response.user)
-      );
-
-      router.push("/dashboard");
-    } catch {
-      setError("Invalid email or password.");
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Login failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

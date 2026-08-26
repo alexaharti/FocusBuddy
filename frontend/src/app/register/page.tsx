@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { register } from "@/lib/auth";
+import { useAuth } from "@/auth/useAuth";
 import styles from "../page.module.css";
 
 export default function RegisterPage() {
     const router = useRouter();
+    const { signUp } = useAuth();
 
     const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
@@ -34,23 +35,10 @@ export default function RegisterPage() {
         setLoading(true);
 
         try {
-            const response = await register(
-                displayName,
-                email,
-                password
-            );
 
-            localStorage.setItem(
-                "focusbuddy_access_token",
-                response.accessToken
-            );
+            await signUp(displayName, email, password);
+            router.replace("/onboarding");
 
-            localStorage.setItem(
-                "focusbuddy_user",
-                JSON.stringify(response.user)
-            );
-
-            router.push("/onboarding");
         } catch (error) {
             if (error instanceof Error) {
                 setError(error.message);
