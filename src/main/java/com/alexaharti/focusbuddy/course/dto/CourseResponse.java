@@ -7,6 +7,7 @@ public record CourseResponse(
         String name,
         String description,
         String color,
+        String yearLabel,
         Instant createdAt,
         Instant updatedAt
 ) {

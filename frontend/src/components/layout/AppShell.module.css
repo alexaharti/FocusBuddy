@@ -1,0 +1,11 @@
+.shell {
+    position: relative;
+    min-height: 100dvh;
+    background: var(--cream);
+}
+
+.content {
+    width: 100%;
+    min-width: 0;
+    min-height: 100dvh;
+}

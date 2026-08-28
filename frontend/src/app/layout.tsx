@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import {
+    Cormorant_Garamond,
+    DM_Sans,
+} from "next/font/google";
 
 import AuthProvider from "@/auth/AuthProvider";
 import "./globals.css";
 
 const dmSans = DM_Sans({
     subsets: ["latin"],
+});
+
+const cormorant = Cormorant_Garamond({
+    subsets: ["latin"],
+    weight: ["500", "600"],
+    variable: "--font-timer",
 });
 
 export const metadata: Metadata = {
@@ -20,7 +29,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body className={dmSans.className}>
+        <body
+            className={`${dmSans.className} ${cormorant.variable}`}
+        >
         <AuthProvider>
             {children}
         </AuthProvider>

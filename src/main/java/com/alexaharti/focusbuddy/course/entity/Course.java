@@ -49,6 +49,9 @@ public class Course {
     @Column(length = 20)
     private String color;
 
+    @Column(name = "year_label", length = 100)
+    private String yearLabel;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 

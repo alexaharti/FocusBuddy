@@ -14,6 +14,7 @@ public final class CourseMapper {
                 course.getName(),
                 course.getDescription(),
                 course.getColor(),
+                course.getYearLabel(),
                 course.getCreatedAt(),
                 course.getUpdatedAt()
         );

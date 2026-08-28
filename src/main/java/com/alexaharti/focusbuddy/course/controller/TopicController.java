@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import com.alexaharti.focusbuddy.course.dto.CreateTopicRequest;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -34,27 +36,26 @@ public class TopicController {
         this.currentUserService = currentUserService;
     }
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<TopicResponse> createTopic(
+    @PostMapping(
+            value = "/{topicId}/lecture",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<TopicResponse> uploadLecture(
             @AuthenticationPrincipal Jwt jwt,
             @PathVariable Long courseId,
-            @RequestParam String title,
-            @RequestParam(required = false) String description,
+            @PathVariable Long topicId,
             @RequestPart("file") MultipartFile file
     ) {
         Long userId = currentUserService.getUserId(jwt);
 
-        TopicResponse response = topicService.createTopicFromPdf(
-                userId,
-                courseId,
-                title,
-                description,
-                file
+        return ResponseEntity.ok(
+                topicService.uploadLecture(
+                        userId,
+                        courseId,
+                        topicId,
+                        file
+                )
         );
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
     }
 
     @GetMapping

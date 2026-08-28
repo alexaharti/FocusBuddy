@@ -40,6 +40,9 @@ public class CourseService {
         course.setName(request.name().trim());
         course.setDescription(normalizeOptionalText(request.description()));
         course.setColor(normalizeOptionalText(request.color()));
+        course.setYearLabel(
+                normalizeOptionalText(request.yearLabel())
+        );
 
         owner.addCourse(course);
 
@@ -74,6 +77,9 @@ public class CourseService {
         course.setName(request.name().trim());
         course.setDescription(normalizeOptionalText(request.description()));
         course.setColor(normalizeOptionalText(request.color()));
+        course.setYearLabel(
+                normalizeOptionalText(request.yearLabel())
+        );
 
         Course savedCourse = courseRepository.save(course);
 

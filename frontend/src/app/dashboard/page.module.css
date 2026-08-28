@@ -1,0 +1,1051 @@
+.page {
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding:
+            clamp(22px, 2vw, 34px)
+            clamp(24px, 2.4vw, 42px);
+
+    overflow: hidden;
+}
+
+.header {
+    min-height: 86px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+
+    padding-bottom: 18px;
+}
+
+.greeting {
+    margin: 0;
+
+    color: var(--deep-teal);
+
+    font-size: clamp(30px, 3vw, 43px);
+    font-weight: 750;
+    letter-spacing: -1.2px;
+}
+
+.headerMessage {
+    margin: 7px 0 0;
+
+    color: var(--muted-text);
+
+    font-size: 13px;
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.date {
+    margin-right: 8px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.iconButton {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid rgba(23, 76, 79, 0.1);
+    border-radius: 13px;
+
+    background: var(--white);
+    color: var(--deep-teal);
+
+    box-shadow: 0 6px 18px rgba(36, 54, 53, 0.045);
+}
+
+.profileButton {
+    width: 44px;
+    height: 44px;
+
+    display: grid;
+    place-items: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: var(--sage);
+    color: var(--deep-teal);
+
+    font-size: 14px;
+    font-weight: 750;
+}
+
+/* Main two-column board */
+
+.board {
+    flex: 1;
+    min-height: 0;
+
+    display: grid;
+    grid-template-columns:
+    minmax(0, 1.36fr)
+    minmax(390px, 0.94fr);
+
+    gap: clamp(14px, 1.3vw, 20px);
+}
+
+.leftColumn,
+.rightColumn {
+    min-height: 0;
+
+    display: grid;
+
+    gap: clamp(14px, 1.3vw, 20px);
+}
+
+.leftColumn {
+    grid-template-rows:
+    minmax(215px, 0.82fr)
+    minmax(285px, 1.18fr);
+}
+
+.rightColumn {
+    grid-template-rows:
+    minmax(145px, 0.64fr)
+    minmax(115px, 0.5fr)
+    minmax(245px, 1.16fr);
+}
+
+.middleRow {
+    min-height: 0;
+
+    display: grid;
+    grid-template-columns:
+        minmax(165px, 0.82fr)
+        minmax(260px, 1.78fr);
+
+    gap: clamp(12px, 1vw, 16px);
+}
+
+.card {
+    min-width: 0;
+    min-height: 0;
+
+    padding: clamp(16px, 1.3vw, 21px);
+
+    border: 1px solid rgba(23, 76, 79, 0.075);
+    border-radius: 22px;
+
+    box-shadow: 0 10px 30px rgba(36, 54, 53, 0.05);
+
+    overflow: hidden;
+}
+
+.coursesCard,
+.focusCard,
+.tasksCard {
+    display: flex;
+    flex-direction: column;
+
+    background: var(--white);
+}
+
+.upcomingCard {
+    background: #dce5d5;
+}
+
+.streakCard {
+    background: #f2d8ca;
+}
+
+.quoteCard {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    background: var(--deep-teal);
+    color: var(--white);
+}
+
+.cardHeader {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+
+    margin-bottom: 14px;
+}
+
+.cardTitleGroup {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cardIcon {
+    width: 36px;
+    height: 36px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 11px;
+
+    background: rgba(168, 184, 154, 0.22);
+    color: var(--deep-teal);
+}
+
+.cardTitle {
+    margin: 0;
+
+    color: var(--deep-teal);
+
+    font-size: clamp(15px, 1.25vw, 18px);
+    font-weight: 750;
+}
+
+.cardSubtitle {
+    margin: 2px 0 0;
+
+    color: var(--muted-text);
+
+    font-size: 10px;
+}
+
+.textButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: var(--terracotta);
+
+    font-size: 11px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.textButton:hover {
+    text-decoration: underline;
+}
+
+/* Courses */
+
+.courseList {
+    flex: 1;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    overflow-y: auto;
+    padding-right: 4px;
+
+    scrollbar-width: thin;
+    scrollbar-color:
+            rgba(23, 76, 79, 0.22)
+            transparent;
+}
+
+.course {
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 9px 11px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(23, 76, 79, 0.07);
+    border-radius: 13px;
+
+    background: #fafaf7;
+
+    text-decoration: none;
+
+    transition:
+            border-color 0.18s ease,
+            transform 0.18s ease;
+}
+
+.course:hover {
+    border-color: rgba(23, 76, 79, 0.2);
+    transform: translateY(-1px);
+}
+
+.courseColor {
+    width: 8px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    border-radius: 5px;
+}
+
+.courseInfo {
+    flex: 1;
+    min-width: 0;
+}
+
+.courseInfo strong {
+    display: block;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--deep-teal);
+
+    font-size: 13px;
+}
+
+.courseInfo span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted-text);
+
+    font-size: 9px;
+}
+
+.courseArrow {
+    flex-shrink: 0;
+    color: var(--muted-text);
+}
+
+/* Focus */
+
+.focusBody {
+    flex: 1;
+    min-height: 0;
+
+    display: grid;
+    grid-template-columns:
+    minmax(270px, 1fr)
+    minmax(125px, 0.35fr);
+
+    align-items: center;
+    gap: 18px;
+}
+
+.timerArea {
+    text-align: center;
+}
+
+.modeSelector {
+    display: inline-flex;
+    gap: 3px;
+
+    padding: 4px;
+
+    border-radius: 11px;
+
+    background: var(--cream);
+}
+
+.modeButton {
+    min-width: 66px;
+    min-height: 28px;
+
+    padding: 0 8px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+    color: var(--muted-text);
+
+    font-size: 9px;
+    font-weight: 750;
+}
+
+.activeMode {
+    background: var(--white);
+    color: var(--deep-teal);
+
+    box-shadow: 0 5px 13px rgba(36, 54, 53, 0.09);
+}
+
+.timer {
+    margin: clamp(8px, 1.2vh, 14px) 0 0;
+
+    color: var(--deep-teal);
+
+    font-family:
+            "Arial Narrow",
+            "Roboto Condensed",
+            "Helvetica Neue",
+            sans-serif;
+
+    font-size: clamp(58px, 6vw, 84px);
+    font-stretch: condensed;
+    font-weight: 700;
+    letter-spacing: -4px;
+    line-height: 0.98;
+}
+
+.timerLabel {
+    margin: 6px 0 0;
+
+    color: var(--muted-text);
+
+    font-size: 10px;
+}
+
+.sessionDots {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+
+    margin: 10px 0;
+}
+
+.sessionDot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #dde3db;
+}
+
+.activeDot {
+    background: var(--deep-teal);
+}
+
+.primaryButton {
+    min-height: 35px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 0 15px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--terracotta);
+    color: var(--white);
+
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.primaryButton:hover {
+    opacity: 0.94;
+}
+
+.mascotArea {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mascotPlaceholder {
+    width: clamp(100px, 8vw, 130px);
+    aspect-ratio: 0.82;
+
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    padding-bottom: 13px;
+
+    border: 1px dashed rgba(23, 76, 79, 0.23);
+    border-radius: 65px 65px 22px 22px;
+
+    background: rgba(168, 184, 154, 0.11);
+    color: var(--muted-text);
+
+    text-align: center;
+
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.mascotHead {
+    position: absolute;
+    top: 20%;
+
+    width: 48%;
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    background: rgba(23, 76, 79, 0.13);
+}
+
+.mascotBody {
+    position: absolute;
+    bottom: 13%;
+
+    width: 63%;
+    height: 47%;
+
+    border-radius: 50% 50% 25% 25%;
+
+    background: rgba(23, 76, 79, 0.1);
+}
+
+.mascotText {
+    position: relative;
+    z-index: 2;
+}
+
+/* Upcoming session */
+
+.upcomingCard .cardIcon {
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.upcomingBody {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sessionDate {
+    width: 60px;
+    height: 62px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--deep-teal);
+
+    text-align: center;
+}
+
+.sessionDate strong {
+    display: block;
+
+    font-size: 20px;
+}
+
+.sessionDate span {
+    display: block;
+
+    font-size: 8px;
+    font-weight: 750;
+    text-transform: uppercase;
+}
+
+.sessionInfo {
+    min-width: 0;
+}
+
+.sessionInfo strong {
+    display: block;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--deep-teal);
+
+    font-size: 14px;
+}
+
+.sessionInfo p {
+    margin: 5px 0 0;
+
+    color: #65716c;
+
+    font-size: 10px;
+}
+
+.sessionInfo span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    margin-top: 6px;
+
+    color: #65716c;
+
+    font-size: 9px;
+}
+
+/* Streak */
+
+
+.streakCard {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    padding: 17px 18px;
+
+    background:
+            linear-gradient(
+                    145deg,
+                    #cf7659 0%,
+                    var(--terracotta) 58%,
+                    #b95f46 100%
+            );
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+
+    color: var(--white);
+    text-decoration: none;
+
+    transition:
+            transform 0.18s ease,
+            box-shadow 0.18s ease;
+}
+
+.streakCard:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+            0 14px 32px rgba(126, 67, 49, 0.18);
+}
+
+.streakTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.streakTitle {
+    color: rgba(255, 255, 255, 0.84);
+    letter-spacing: 1.1px;
+    font-size: 10px;
+    font-weight: 750;
+    text-transform: uppercase;
+}
+
+.streakArrow {
+    color: rgba(255, 255, 255, 0.76);
+
+    transition: transform 0.18s ease;
+}
+
+.streakCard:hover .streakArrow {
+    transform: translateX(2px);
+}
+
+.streakMain {
+    display: flex;
+    align-items:center;
+    gap: 7px;
+
+    margin: 4px 0;
+}
+
+.streakFlame {
+    align-self: center;
+
+    margin-right: 2px;
+
+    color: rgba(255, 255, 255, 0.9);
+    transform:translateY(-6px);
+    stroke-width: 1.7;
+}
+
+.streakNumber {
+    color: white;
+    top: -3px;
+    font-family: inherit;
+    font-size: clamp(64px,5vw,80px);
+    font-weight: 400;
+    line-height: 0.82;
+    letter-spacing: -3px;
+    position: relative;
+}
+
+.streakUnit {
+    margin-bottom: 10px;
+
+    color: rgba(255, 255, 255, 0.82);
+
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-left: 1px;
+    opacity: .96;
+}
+
+.streakRequirement {
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 9px;
+    font-weight: 550;
+    line-height: 1.35;
+}
+
+/* Quote */
+
+.quoteCard {
+    position: relative;
+
+    display: flex;
+    align-items: stretch;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #174c4f 0%,
+                    #1a585a 62%,
+                    #174c4f 100%
+            );
+
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.quoteContent {
+    position: relative;
+    z-index: 2;
+
+    width: 72%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 17px 10px 17px 20px;
+}
+
+.quoteLabel {
+    margin-bottom: 1px;
+
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+}
+
+.quoteMark {
+    height: 30px;
+
+    display: block;
+
+    margin: 1px 0 -4px -4px;
+
+    color: var(--sage);
+
+    font-family: var(--font-timer), Georgia, serif;
+    font-size: 58px;
+    font-weight: 500;
+    line-height: 0.82;
+}
+
+.quoteText {
+    margin: 0;
+
+    color: var(--white);
+
+    font-family: var(--font-timer), Georgia, serif;
+    font-size: clamp(16px, 1.3vw, 21px);
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.05;
+    letter-spacing: -0.2px;
+}
+
+.quoteOtter {
+    position: absolute;
+    right: -22px;
+    bottom: -38px;
+
+    width: 44%;
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    background:
+            radial-gradient(
+                    circle at 42% 38%,
+                    rgba(255, 255, 255, 0.08),
+                    transparent 36%
+            ),
+            rgba(168, 184, 154, 0.25);
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.quoteOtterHead {
+    position: absolute;
+    top: 21%;
+    left: 31%;
+
+    width: 38%;
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.quoteOtterBody {
+    position: absolute;
+    left: 22%;
+    bottom: 5%;
+
+    width: 56%;
+    height: 49%;
+
+    border-radius: 50% 50% 36% 36%;
+
+    background: rgba(255, 255, 255, 0.09);
+}
+
+/* Tasks */
+
+.tasksCard {
+    padding-bottom: 13px;
+}
+
+.taskList {
+    flex: 1;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    overflow-y: auto;
+    padding-right: 4px;
+
+    scrollbar-width: thin;
+    scrollbar-color:
+            rgba(23, 76, 79, 0.22)
+            transparent;
+}
+
+.task {
+    min-height: 39px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 7px 10px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(23, 76, 79, 0.075);
+    border-radius: 11px;
+
+    background: #fdfdfb;
+}
+
+.taskButton {
+    display: grid;
+    place-items: center;
+
+    padding: 0;
+
+    flex-shrink: 0;
+
+    border: none;
+    background: transparent;
+
+    color: var(--sage);
+}
+
+.taskText {
+    flex: 1;
+
+    color: var(--text);
+
+    font-size: clamp(10px, 0.95vw, 12px);
+}
+
+.completedTask {
+    color: var(--muted-text);
+    text-decoration: line-through;
+}
+
+.taskCourse {
+    padding: 4px 7px;
+
+    border-radius: 7px;
+
+    background: rgba(168, 184, 154, 0.18);
+    color: var(--deep-teal);
+
+    font-size: 8px;
+    font-weight: 750;
+}
+
+.addButton {
+    min-height: 32px;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 0 10px;
+
+    border: 1px solid rgba(23, 76, 79, 0.15);
+    border-radius: 9px;
+
+    background: transparent;
+    color: var(--deep-teal);
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+.tasksFooter {
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+
+    padding-top: 10px;
+}
+
+.seeAllButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    color: var(--terracotta);
+
+    font-size: 10px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+/*
+ * If the viewport loses height, the application must become
+ * scrollable rather than clipping content.
+ */
+@media (max-height: 760px) and (min-width: 1051px) {
+    .page {
+        height: auto;
+        min-height: 100dvh;
+
+        overflow-y: auto;
+    }
+
+    .board {
+        min-height: 740px;
+    }
+}
+
+/*
+ * Reduced width switches the board to a vertical scroll layout.
+ */
+@media (max-width: 1050px) {
+    .page {
+        height: auto;
+        min-height: 100dvh;
+
+        overflow: visible;
+    }
+
+    .header {
+        min-height: auto;
+        margin-bottom: 18px;
+    }
+
+    .board {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .leftColumn,
+    .rightColumn {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .middleRow {
+        min-height: 150px;
+    }
+
+    .card {
+        min-height: 165px;
+    }
+
+    .coursesCard {
+        min-height: 250px;
+    }
+
+    .focusCard {
+        min-height: 330px;
+    }
+
+    .tasksCard {
+        min-height: 270px;
+    }
+}
+
+@media (max-width: 650px) {
+    .page {
+        padding: 20px 16px;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+
+    .date {
+        display: none;
+    }
+
+    .middleRow {
+        grid-template-columns: 1fr;
+    }
+
+    .focusBody {
+        grid-template-columns: 1fr;
+    }
+
+    .mascotArea {
+        display: none;
+    }
+
+    .taskCourse {
+        display: none;
+    }
+}

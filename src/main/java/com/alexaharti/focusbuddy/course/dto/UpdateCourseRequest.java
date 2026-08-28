@@ -13,6 +13,9 @@ public record UpdateCourseRequest(
         String description,
 
         @Size(max = 20, message = "Color cannot exceed 20 characters")
-        String color
+        String color,
+
+        @Size(max = 100, message = "Year cannot exceed 100 characters")
+        String yearLabel
 ) {
 }

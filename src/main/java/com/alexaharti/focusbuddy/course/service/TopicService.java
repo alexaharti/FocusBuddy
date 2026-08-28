@@ -1,5 +1,6 @@
 package com.alexaharti.focusbuddy.course.service;
 
+import com.alexaharti.focusbuddy.course.dto.CreateTopicRequest;
 import com.alexaharti.focusbuddy.ai.document.Document;
 import com.alexaharti.focusbuddy.ai.document.DocumentProcessingStatus;
 import com.alexaharti.focusbuddy.ai.document.FileStorageService;
@@ -37,29 +38,56 @@ public class TopicService {
     }
 
     @Transactional
-    public TopicResponse createTopicFromPdf(
+    public TopicResponse createTopic(
             Long ownerId,
             Long courseId,
-            String title,
-            String description,
-            MultipartFile file
+            CreateTopicRequest request
     ) {
         Course course = findOwnedCourse(ownerId, courseId);
-        String normalizedTitle = normalizeRequiredTitle(title);
+
+        Topic topic = new Topic();
+        topic.setTitle(request.title().trim());
+        topic.setDescription(
+                normalizeOptionalText(request.description())
+        );
+        topic.setPosition(
+                Math.toIntExact(
+                        topicRepository.countByCourseId(courseId) + 1
+                )
+        );
+        topic.setStatus(TopicStatus.NOT_STARTED);
+
+        course.addTopic(topic);
+
+        Topic savedTopic = topicRepository.save(topic);
+
+        return TopicMapper.toResponse(savedTopic);
+    }
+
+    @Transactional
+    public TopicResponse uploadLecture(
+            Long ownerId,
+            Long courseId,
+            Long topicId,
+            MultipartFile file
+    ) {
+        findOwnedCourse(ownerId, courseId);
+
+        Topic topic = topicRepository
+                .findByIdAndCourseId(topicId, courseId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Topic with ID " + topicId + " was not found"
+                ));
+
+        if (topic.getDocument() != null) {
+            throw new IllegalStateException(
+                    "This topic already has a lecture. Use the replace lecture action."
+            );
+        }
 
         StoredFile storedFile = fileStorageService.storePdf(file);
 
         try {
-            Topic topic = new Topic();
-            topic.setTitle(normalizedTitle);
-            topic.setDescription(normalizeOptionalText(description));
-            topic.setPosition(
-                    Math.toIntExact(
-                            topicRepository.countByCourseId(courseId) + 1
-                    )
-            );
-            topic.setStatus(TopicStatus.NOT_STARTED);
-
             Document document = new Document();
             document.setOriginalFilename(storedFile.originalFilename());
             document.setStoredFilename(storedFile.storedFilename());
@@ -74,14 +102,15 @@ public class TopicService {
                     DocumentProcessingStatus.UPLOADED
             );
 
-            course.addTopic(topic);
             topic.attachDocument(document);
 
             Topic savedTopic = topicRepository.save(topic);
 
             return TopicMapper.toResponse(savedTopic);
         } catch (RuntimeException exception) {
-            fileStorageService.deleteQuietly(storedFile.storagePath());
+            fileStorageService.deleteQuietly(
+                    storedFile.storagePath()
+            );
             throw exception;
         }
     }
