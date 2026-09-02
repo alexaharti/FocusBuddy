@@ -1,8 +1,228 @@
 package com.alexaharti.focusbuddy.study.service;
 
+import com.alexaharti.focusbuddy.study.entity.StudyMaterialType;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudyMaterialGenerationService {
 
+    public String generateMockMaterial(
+            StudyMaterialType materialType,
+            String topicTitle
+    ) {
+        return switch (materialType) {
+
+            case SUMMARY -> generateSummary(topicTitle);
+
+            case STANDARD_NOTES -> generateStandardNotes(
+                    topicTitle
+            );
+
+            case COMPLETE_NOTES -> generateCompleteNotes(
+                    topicTitle
+            );
+
+            case FLASHCARDS -> generateFlashcards(topicTitle);
+
+            case QUIZ -> generateQuiz(topicTitle);
+        };
+    }
+
+    private String generateSummary(String topicTitle) {
+        return """
+                # %s — Summary
+                
+                ## Overview
+                
+                This is temporary mock content for the topic **%s**.
+                
+                The final version of FocusBuddy will generate this summary
+                from the uploaded lecture material using AI.
+                
+                ## Key ideas
+                
+                - Important concept from the lecture
+                - Another key concept
+                - Main relationship between the concepts
+                - Important terminology to remember
+                
+                ## Quick recap
+                
+                This section will contain a concise recap of the most
+                important material from the lecture.
+                
+                > Mock study material — AI generation will be connected later.
+                """.formatted(
+                topicTitle,
+                topicTitle
+        );
+    }
+
+    private String generateStandardNotes(
+            String topicTitle
+    ) {
+        return """
+                # %s — Standard Notes
+                
+                ## 1. Introduction
+                
+                These are temporary Standard Notes for **%s**.
+                
+                Standard Notes will eventually provide the normal level of
+                detail a student would use for everyday studying.
+                
+                ## 2. Core concepts
+                
+                ### Concept A
+                
+                Explanation of the first important concept.
+                
+                ### Concept B
+                
+                Explanation of another important concept.
+                
+                ## 3. Important details
+                
+                - Relevant definition
+                - Important relationship
+                - Key example
+                - Detail worth remembering
+                
+                ## 4. Recap
+                
+                Standard Notes will contain more detail than the Summary,
+                while remaining shorter than Complete Notes.
+                
+                > Mock study material — AI generation will be connected later.
+                """.formatted(
+                topicTitle,
+                topicTitle
+        );
+    }
+
+    private String generateCompleteNotes(
+            String topicTitle
+    ) {
+        return """
+                # %s — Complete Notes
+                
+                ## Introduction
+                
+                These are temporary Complete Notes for **%s**.
+                
+                The final AI-generated version will aim to preserve the
+                important detail contained in the uploaded lecture.
+                
+                ## Section 1 — Foundations
+                
+                Detailed explanation of the fundamental ideas of the topic.
+                
+                ### Important terminology
+                
+                - **Term 1:** detailed explanation
+                - **Term 2:** detailed explanation
+                - **Term 3:** detailed explanation
+                
+                ## Section 2 — Main concepts
+                
+                This section will contain a comprehensive explanation of
+                the central lecture material.
+                
+                ### Concept A
+                
+                Detailed explanation and context.
+                
+                ### Concept B
+                
+                Detailed explanation and context.
+                
+                ## Section 3 — Connections
+                
+                Explanation of how the important concepts relate to each
+                other.
+                
+                ## Section 4 — Examples
+                
+                Examples derived from the original lecture will eventually
+                appear here.
+                
+                ## Final recap
+                
+                Complete Notes will be the most comprehensive Study Material
+                generated by FocusBuddy.
+                
+                > Mock study material — AI generation will be connected later.
+                """.formatted(
+                topicTitle,
+                topicTitle
+        );
+    }
+
+    private String generateFlashcards(String topicTitle) {
+        String safeTitle = escapeJson(topicTitle);
+
+        return """
+                {
+                  "title": "%s",
+                  "cards": [
+                    {
+                      "front": "What is the main idea of this topic?",
+                      "back": "This is a temporary mock answer."
+                    },
+                    {
+                      "front": "What is one important concept to remember?",
+                      "back": "This will later be generated from the lecture."
+                    },
+                    {
+                      "front": "How are the main concepts related?",
+                      "back": "The real AI version will answer using the uploaded material."
+                    }
+                  ]
+                }
+                """.formatted(safeTitle);
+    }
+
+    private String generateQuiz(String topicTitle) {
+        String safeTitle = escapeJson(topicTitle);
+
+        return """
+                {
+                  "title": "%s",
+                  "questions": [
+                    {
+                      "question": "Which statement best represents the main idea of this topic?",
+                      "options": [
+                        "Mock option A",
+                        "Mock option B",
+                        "Mock option C",
+                        "Mock option D"
+                      ],
+                      "correctAnswer": 1,
+                      "explanation": "This is temporary mock feedback."
+                    },
+                    {
+                      "question": "Which concept is important to remember?",
+                      "options": [
+                        "Mock concept A",
+                        "Mock concept B",
+                        "Mock concept C",
+                        "Mock concept D"
+                      ],
+                      "correctAnswer": 2,
+                      "explanation": "The real question will later be generated from the lecture."
+                    }
+                  ]
+                }
+                """.formatted(safeTitle);
+    }
+
+    private String escapeJson(String value) {
+        if (value == null) {
+            return "";
+        }
+
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
+    }
 }
