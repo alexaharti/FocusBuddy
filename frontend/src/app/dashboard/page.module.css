@@ -1,12 +1,10 @@
 .page {
-    height: 100dvh;
+    height: calc(100dvh - 72px);
 
     display: flex;
     flex-direction: column;
 
-    padding:
-            clamp(22px, 2vw, 34px)
-            clamp(24px, 2.4vw, 42px);
+    padding: clamp(18px, 1.6vw, 26px) clamp(24px, 2.4vw, 42px);
 
     overflow: hidden;
 }
@@ -41,14 +39,12 @@
     font-size: 13px;
 }
 
-.headerActions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
 
 .date {
-    margin-right: 8px;
+
+    flex-shrink: 0;
+    padding-top: 8px;
+
 
     color: var(--muted-text);
 
@@ -56,38 +52,6 @@
     font-weight: 650;
 }
 
-.iconButton {
-    width: 42px;
-    height: 42px;
-
-    display: grid;
-    place-items: center;
-
-    border: 1px solid rgba(23, 76, 79, 0.1);
-    border-radius: 13px;
-
-    background: var(--white);
-    color: var(--deep-teal);
-
-    box-shadow: 0 6px 18px rgba(36, 54, 53, 0.045);
-}
-
-.profileButton {
-    width: 44px;
-    height: 44px;
-
-    display: grid;
-    place-items: center;
-
-    border: none;
-    border-radius: 50%;
-
-    background: var(--sage);
-    color: var(--deep-teal);
-
-    font-size: 14px;
-    font-weight: 750;
-}
 
 /* Main two-column board */
 
@@ -265,9 +229,7 @@
     padding-right: 4px;
 
     scrollbar-width: thin;
-    scrollbar-color:
-            rgba(23, 76, 79, 0.22)
-            transparent;
+    scrollbar-color: rgba(23, 76, 79, 0.22) transparent;
 }
 
 .course {
@@ -288,9 +250,8 @@
 
     text-decoration: none;
 
-    transition:
-            border-color 0.18s ease,
-            transform 0.18s ease;
+    transition: border-color 0.18s ease,
+    transform 0.18s ease;
 }
 
 .course:hover {
@@ -397,11 +358,10 @@
 
     color: var(--deep-teal);
 
-    font-family:
-            "Arial Narrow",
-            "Roboto Condensed",
-            "Helvetica Neue",
-            sans-serif;
+    font-family: "Arial Narrow",
+    "Roboto Condensed",
+    "Helvetica Neue",
+    sans-serif;
 
     font-size: clamp(58px, 6vw, 84px);
     font-stretch: condensed;
@@ -614,29 +574,26 @@
 
     padding: 17px 18px;
 
-    background:
-            linear-gradient(
-                    145deg,
-                    #cf7659 0%,
-                    var(--terracotta) 58%,
-                    #b95f46 100%
-            );
+    background: linear-gradient(
+            145deg,
+            #cf7659 0%,
+            var(--terracotta) 58%,
+            #b95f46 100%
+    );
 
     border: 1px solid rgba(255, 255, 255, 0.14);
 
     color: var(--white);
     text-decoration: none;
 
-    transition:
-            transform 0.18s ease,
-            box-shadow 0.18s ease;
+    transition: transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .streakCard:hover {
     transform: translateY(-2px);
 
-    box-shadow:
-            0 14px 32px rgba(126, 67, 49, 0.18);
+    box-shadow: 0 14px 32px rgba(126, 67, 49, 0.18);
 }
 
 .streakTop {
@@ -665,7 +622,7 @@
 
 .streakMain {
     display: flex;
-    align-items:center;
+    align-items: center;
     gap: 7px;
 
     margin: 4px 0;
@@ -677,7 +634,7 @@
     margin-right: 2px;
 
     color: rgba(255, 255, 255, 0.9);
-    transform:translateY(-6px);
+    transform: translateY(-6px);
     stroke-width: 1.7;
 }
 
@@ -685,7 +642,7 @@
     color: white;
     top: -3px;
     font-family: inherit;
-    font-size: clamp(64px,5vw,80px);
+    font-size: clamp(64px, 5vw, 80px);
     font-weight: 400;
     line-height: 0.82;
     letter-spacing: -3px;
@@ -726,13 +683,12 @@
 
     overflow: hidden;
 
-    background:
-            linear-gradient(
-                    135deg,
-                    #174c4f 0%,
-                    #1a585a 62%,
-                    #174c4f 100%
-            );
+    background: linear-gradient(
+            135deg,
+            #174c4f 0%,
+            #1a585a 62%,
+            #174c4f 100%
+    );
 
     border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -799,13 +755,12 @@
 
     border-radius: 50%;
 
-    background:
-            radial-gradient(
-                    circle at 42% 38%,
-                    rgba(255, 255, 255, 0.08),
-                    transparent 36%
-            ),
-            rgba(168, 184, 154, 0.25);
+    background: radial-gradient(
+            circle at 42% 38%,
+            rgba(255, 255, 255, 0.08),
+            transparent 36%
+    ),
+    rgba(168, 184, 154, 0.25);
 
     border: 1px solid rgba(255, 255, 255, 0.07);
 }
@@ -854,9 +809,7 @@
     padding-right: 4px;
 
     scrollbar-width: thin;
-    scrollbar-color:
-            rgba(23, 76, 79, 0.22)
-            transparent;
+    scrollbar-color: rgba(23, 76, 79, 0.22) transparent;
 }
 
 .task {
@@ -962,7 +915,7 @@
 @media (max-height: 760px) and (min-width: 1051px) {
     .page {
         height: auto;
-        min-height: 100dvh;
+        min-height: calc(100dvh - 72px);
 
         overflow-y: auto;
     }
@@ -978,7 +931,7 @@
 @media (max-width: 1050px) {
     .page {
         height: auto;
-        min-height: 100dvh;
+        min-height: calc(100dvh - 72px);
 
         overflow: visible;
     }

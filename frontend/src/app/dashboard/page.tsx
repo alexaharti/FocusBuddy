@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import {useState} from "react";
 import {
     ArrowRight,
-    Bell,
     BookOpen,
     CalendarDays,
     CheckCircle2,
@@ -15,12 +14,11 @@ import {
     Play,
     Plus,
     Timer,
-    UserRound,
 } from "lucide-react";
 
 import AppShell from "@/components/layout/AppShell";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import { useAuth } from "@/auth/useAuth";
+import {useAuth} from "@/auth/useAuth";
 import styles from "./page.module.css";
 
 interface Task {
@@ -123,7 +121,7 @@ function getDayOfYear(): number {
 }
 
 function DashboardContent() {
-    const { user } = useAuth();
+    const {user} = useAuth();
 
     const [tasks, setTasks] = useState(initialTasks);
     const [timerMode, setTimerMode] =
@@ -178,32 +176,9 @@ function DashboardContent() {
                         </p>
                     </div>
 
-                    <div className={styles.headerActions}>
-            <span className={styles.date}>
-              {getFormattedDate()}
-            </span>
-
-                        <button
-                            type="button"
-                            className={styles.iconButton}
-                            aria-label="Notifications"
-                        >
-                            <Bell size={18} />
-                        </button>
-
-                        <button
-                            type="button"
-                            className={styles.profileButton}
-                            aria-label="Open profile"
-                            title={user?.email}
-                        >
-                            {user?.displayName
-                                ?.charAt(0)
-                                .toUpperCase() ?? (
-                                <UserRound size={18} />
-                            )}
-                        </button>
-                    </div>
+                    <span className={styles.date}>
+        {getFormattedDate()}
+    </span>
                 </header>
 
                 <div className={styles.board}>
@@ -214,7 +189,7 @@ function DashboardContent() {
                             <div className={styles.cardHeader}>
                                 <div className={styles.cardTitleGroup}>
                                     <div className={styles.cardIcon}>
-                                        <BookOpen size={18} />
+                                        <BookOpen size={18}/>
                                     </div>
 
                                     <div>
@@ -233,7 +208,7 @@ function DashboardContent() {
                                     className={styles.textButton}
                                 >
                                     View all
-                                    <ArrowRight size={13} />
+                                    <ArrowRight size={13}/>
                                 </Link>
                             </div>
 
@@ -271,7 +246,7 @@ function DashboardContent() {
                             <div className={styles.cardHeader}>
                                 <div className={styles.cardTitleGroup}>
                                     <div className={styles.cardIcon}>
-                                        <Timer size={18} />
+                                        <Timer size={18}/>
                                     </div>
 
                                     <div>
@@ -290,7 +265,7 @@ function DashboardContent() {
                                     className={styles.textButton}
                                 >
                                     Full focus mode
-                                    <ArrowRight size={13} />
+                                    <ArrowRight size={13}/>
                                 </Link>
                             </div>
 
@@ -347,9 +322,9 @@ function DashboardContent() {
                       <span
                           className={`${styles.sessionDot} ${styles.activeDot}`}
                       />
-                                            <span className={styles.sessionDot} />
-                                            <span className={styles.sessionDot} />
-                                            <span className={styles.sessionDot} />
+                                            <span className={styles.sessionDot}/>
+                                            <span className={styles.sessionDot}/>
+                                            <span className={styles.sessionDot}/>
                                         </div>
                                     )}
 
@@ -357,19 +332,19 @@ function DashboardContent() {
                                         type="button"
                                         className={styles.primaryButton}
                                     >
-                                        <Play size={14} fill="currentColor" />
+                                        <Play size={14} fill="currentColor"/>
                                         Start
                                     </button>
                                 </div>
 
                                 <div className={styles.mascotArea}>
                                     <div className={styles.mascotPlaceholder}>
-                                        <span className={styles.mascotHead} />
-                                        <span className={styles.mascotBody} />
+                                        <span className={styles.mascotHead}/>
+                                        <span className={styles.mascotBody}/>
 
                                         <span className={styles.mascotText}>
                       Seated
-                      <br />
+                      <br/>
                       3D otter
                     </span>
                                     </div>
@@ -385,7 +360,7 @@ function DashboardContent() {
                             <div className={styles.cardHeader}>
                                 <div className={styles.cardTitleGroup}>
                                     <div className={styles.cardIcon}>
-                                        <CalendarDays size={18} />
+                                        <CalendarDays size={18}/>
                                     </div>
 
                                     <div>
@@ -404,7 +379,7 @@ function DashboardContent() {
                                     className={styles.textButton}
                                 >
                                     Sessions
-                                    <ArrowRight size={13} />
+                                    <ArrowRight size={13}/>
                                 </Link>
                             </div>
 
@@ -424,7 +399,7 @@ function DashboardContent() {
                                     </p>
 
                                     <span>
-                    <Clock3 size={11} />
+                    <Clock3 size={11}/>
                     18:00 · 50 minutes
                   </span>
                                 </div>
@@ -491,8 +466,8 @@ function DashboardContent() {
                                     className={styles.quoteOtter}
                                     aria-label="Future otter portrait"
                                 >
-                                    <span className={styles.quoteOtterHead} />
-                                    <span className={styles.quoteOtterBody} />
+                                    <span className={styles.quoteOtterHead}/>
+                                    <span className={styles.quoteOtterBody}/>
                                 </div>
                             </section>
                         </div>
@@ -503,7 +478,7 @@ function DashboardContent() {
                             <div className={styles.cardHeader}>
                                 <div className={styles.cardTitleGroup}>
                                     <div className={styles.cardIcon}>
-                                        <ListChecks size={18} />
+                                        <ListChecks size={18}/>
                                     </div>
 
                                     <div>
@@ -526,7 +501,7 @@ function DashboardContent() {
                                     className={styles.addButton}
                                     type="button"
                                 >
-                                    <Plus size={13} />
+                                    <Plus size={13}/>
                                     Add
                                 </button>
                             </div>
@@ -548,9 +523,9 @@ function DashboardContent() {
                                             }
                                         >
                                             {task.completed ? (
-                                                <CheckCircle2 size={17} />
+                                                <CheckCircle2 size={17}/>
                                             ) : (
-                                                <Circle size={17} />
+                                                <Circle size={17}/>
                                             )}
                                         </button>
 
@@ -579,7 +554,7 @@ function DashboardContent() {
                                     className={styles.seeAllButton}
                                 >
                                     See all tasks
-                                    <ArrowRight size={12} />
+                                    <ArrowRight size={12}/>
                                 </Link>
                             </div>
                         </section>
@@ -593,7 +568,7 @@ function DashboardContent() {
 export default function DashboardPage() {
     return (
         <ProtectedRoute>
-            <DashboardContent />
+            <DashboardContent/>
         </ProtectedRoute>
     );
 }

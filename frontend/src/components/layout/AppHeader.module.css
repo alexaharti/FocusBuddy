@@ -1,0 +1,229 @@
+.header {
+    position: sticky;
+    top: 0;
+
+    z-index: 40;
+
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    padding: 12px clamp(28px, 4vw, 64px);
+
+    background: rgba(255, 252, 245, 0.88);
+
+    border-bottom: 1px solid rgba(23, 76, 79, 0.09);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.breadcrumbs {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.rootLink,
+.breadcrumbLink {
+    color: var(--muted-text);
+    text-decoration: none;
+
+    transition: color 0.18s ease;
+}
+
+.rootLink:hover,
+.breadcrumbLink:hover {
+    color: var(--deep-teal);
+}
+
+.breadcrumbPart {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.separator {
+    color: rgba(97, 112, 109, 0.45);
+}
+
+.currentPage {
+    color: var(--deep-teal);
+    font-weight: 750;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    flex-shrink: 0;
+}
+
+.notificationButton {
+    position: relative;
+
+    width: 43px;
+    height: 43px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid rgba(23, 76, 79, 0.12);
+    border-radius: 13px;
+
+    background: var(--white);
+    color: var(--deep-teal);
+
+    box-shadow: 0 7px 20px rgba(36, 54, 53, 0.055);
+
+    transition: transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.notificationButton:hover {
+    transform: translateY(-1px);
+
+    background: #fffefa;
+
+    box-shadow: 0 10px 24px rgba(36, 54, 53, 0.08);
+}
+
+.notificationDot {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+
+    width: 6px;
+    height: 6px;
+
+    border: 1.5px solid var(--white);
+    border-radius: 50%;
+
+    background: var(--terracotta);
+}
+
+.profile {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 5px 9px 5px 5px;
+
+    border: 1px solid rgba(23, 76, 79, 0.08);
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.65);
+    color: inherit;
+    text-decoration: none;
+
+    transition: background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.profile:hover {
+    transform: translateY(-1px);
+    background: var(--white);
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 12px;
+
+    background: var(--sage-green);
+    color: var(--deep-teal);
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.profileText {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.profileText strong {
+    max-width: 150px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--deep-teal);
+
+    font-size: 11px;
+    font-weight: 750;
+}
+
+.profileText small {
+    max-width: 150px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: var(--muted-text);
+
+    font-size: 9px;
+}
+
+@media (max-width: 760px) {
+    .header {
+        min-height: 62px;
+
+        padding: 9px 17px 9px 48px;
+    }
+
+    .profileText {
+        display: none;
+    }
+
+    .profile {
+        padding: 4px;
+    }
+
+    .notificationButton {
+        width: 39px;
+        height: 39px;
+    }
+
+    .avatar {
+        width: 34px;
+        height: 34px;
+    }
+
+    .breadcrumbs {
+        font-size: 11px;
+    }
+
+    .rootLink {
+        display: none;
+    }
+
+    .breadcrumbPart:first-of-type
+    .separator {
+        display: none;
+    }
+}

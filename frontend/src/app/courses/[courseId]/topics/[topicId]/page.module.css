@@ -1,0 +1,428 @@
+.page {
+    min-height: calc(100dvh - 72px);
+    padding: 42px 48px 72px;
+}
+
+.content {
+    width: min(1100px, 100%);
+    margin: 0 auto;
+}
+
+.courseLink {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 28px;
+
+    color: #66766f;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+
+    transition: color 160ms ease;
+}
+
+.courseLink:hover {
+    color: #173f3b;
+}
+
+.topicHeader {
+    margin-bottom: 48px;
+}
+
+.eyebrow {
+    margin: 0 0 8px;
+
+    color: #8b6e5d;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.topicHeader h1 {
+    margin: 0;
+
+    color: #193b37;
+    font-size: clamp(36px, 5vw, 54px);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+}
+
+.description {
+    max-width: 650px;
+    margin: 16px 0 0;
+
+    color: #6c7671;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.section {
+    margin-top: 42px;
+}
+
+.sectionHeading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+}
+
+.sectionHeading h2 {
+    margin: 0 0 5px;
+
+    color: #253b37;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.sectionHeading p {
+    margin: 0;
+
+    color: #83908a;
+    font-size: 14px;
+}
+
+.uploadCard {
+    width: 100%;
+    min-height: 230px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 32px;
+
+    border: 1.5px dashed #b9c6bf;
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.56);
+
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    transition: border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.uploadCard:hover:not(:disabled) {
+    border-color: #5d8b80;
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+}
+
+.uploadCard:disabled {
+    cursor: default;
+}
+
+.uploadIcon {
+    width: 52px;
+    height: 52px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 17px;
+
+    border-radius: 16px;
+
+    background: #e5eee9;
+    color: #285a52;
+}
+
+.uploadTitle {
+    color: #263d39;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.uploadDescription {
+    margin-top: 7px;
+
+    color: #7f8b86;
+    font-size: 14px;
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.inlineError {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-top: 12px;
+
+    color: #a14d42;
+    font-size: 14px;
+}
+
+.documentCard {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 20px 22px;
+
+    border: 1px solid #e0e6e2;
+    border-radius: 18px;
+
+    background: #ffffff;
+}
+
+.documentInfo {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.fileIcon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 13px;
+
+    background: #edf2ef;
+    color: #315d55;
+}
+
+.fileName {
+    max-width: 550px;
+    margin: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    color: #283d39;
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.fileMeta {
+    margin: 4px 0 0;
+
+    color: #909a95;
+    font-size: 12px;
+}
+
+.documentStatus {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+
+    padding: 7px 10px;
+
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.statusNeutral {
+    background: #f1f3f2;
+    color: #6d7974;
+}
+
+.statusProcessing {
+    background: #f5eee5;
+    color: #8b6546;
+}
+
+.statusReady {
+    background: #e5f0eb;
+    color: #326253;
+}
+
+.statusFailed {
+    background: #f7e9e6;
+    color: #a14d42;
+}
+
+.processingNotice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 15px;
+    padding: 12px 14px;
+
+    border-radius: 12px;
+
+    background: #f3f0e9;
+    color: #766c5f;
+
+    font-size: 13px;
+}
+
+.materialGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.materialCard {
+    min-height: 150px;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 20px;
+
+    border: 1px solid #e1e6e3;
+    border-radius: 17px;
+
+    background: #ffffff;
+
+    color: inherit;
+    font: inherit;
+    text-align: left;
+}
+
+.materialCard:disabled {
+    cursor: default;
+}
+
+.materialIcon {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 11px;
+
+    background: #edf2ef;
+    color: #315d55;
+}
+
+.materialContent {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.materialContent strong {
+    color: #283d39;
+    font-size: 14px;
+}
+
+.materialContent span {
+    color: #84908a;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.comingSoon {
+    margin-top: auto;
+    padding-top: 15px;
+
+    color: #9a8171;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.loadingState,
+.errorState {
+    min-height: 350px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    color: #6d7873;
+}
+
+.errorState {
+    flex-direction: column;
+    text-align: center;
+}
+
+.errorState p {
+    margin: 4px 0;
+}
+
+.backLink {
+    margin-top: 7px;
+
+    color: #315d55;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.spinner {
+    animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 900px) {
+    .materialGrid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .page {
+        padding: 30px 20px 60px;
+    }
+
+    .topicHeader {
+        margin-bottom: 36px;
+    }
+
+    .materialGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .documentCard {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .fileName {
+        max-width: 70vw;
+    }
+
+    .processButton {
+        border: none;
+        border-radius: 10px;
+        padding: 9px 16px;
+        background: #155b5f;
+        color: white;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .processButton:hover {
+        opacity: 0.9;
+    }
+}

@@ -46,7 +46,7 @@ public class TopicService {
         Course course = findOwnedCourse(ownerId, courseId);
 
         Topic topic = new Topic();
-        topic.setTitle(request.title().trim());
+        topic.setTitle(normalizeRequiredTitle(request.title()));
         topic.setDescription(
                 normalizeOptionalText(request.description())
         );
