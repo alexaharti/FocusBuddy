@@ -15,7 +15,7 @@ CREATE TABLE focus_sessions
 
     CONSTRAINT fk_focus_sessions_user
         FOREIGN KEY (user_id)
-            REFERENCES users (id)
+            REFERENCES app_users (id)
             ON DELETE CASCADE,
 
     CONSTRAINT fk_focus_sessions_course
