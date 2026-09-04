@@ -1,8 +1,15 @@
 "use client";
 
+import {useRouter} from "next/navigation";
 import {ChangeEvent, useEffect, useRef, useState} from "react";
 import {useParams} from "next/navigation";
 import Link from "next/link";
+import {
+    generateStudyMaterial,
+    getStudyMaterials,
+    StudyMaterial,
+    StudyMaterialType,
+} from "@/lib/studyMaterials";
 
 import {
     FileText,
@@ -33,6 +40,8 @@ export default function TopicPage() {
     const courseId = Number(params.courseId);
     const topicId = Number(params.topicId);
 
+    const router = useRouter();
+
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [course, setCourse] = useState<Course | null>(null);
@@ -44,6 +53,12 @@ export default function TopicPage() {
 
     const [error, setError] = useState<string | null>(null);
     const [uploadError, setUploadError] = useState<string | null>(null);
+
+    const [studyMaterials, setStudyMaterials] = useState<StudyMaterial[]>([]);
+    const [loadingMaterials, setLoadingMaterials] = useState(false);
+    const [generatingMaterial, setGeneratingMaterial] =
+        useState<StudyMaterialType | null>(null);
+    const [materialError, setMaterialError] = useState<string | null>(null);
 
     useEffect(() => {
         if (
@@ -101,6 +116,36 @@ export default function TopicPage() {
             controller.abort();
         };
     }, [courseId, topicId]);
+
+    async function loadStudyMaterials() {
+        try {
+            setLoadingMaterials(true);
+            setMaterialError(null);
+
+            const materials = await getStudyMaterials(
+                courseId,
+                topicId
+            );
+
+            setStudyMaterials(materials);
+        } catch (err) {
+            setMaterialError(
+                err instanceof Error
+                    ? err.message
+                    : "Study Materials could not be loaded."
+            );
+        } finally {
+            setLoadingMaterials(false);
+        }
+    }
+
+    useEffect(() => {
+        if (
+            topic?.processingStatus === "READY"
+        ) {
+            void loadStudyMaterials();
+        }
+    }, [topic?.processingStatus]);
 
     function openFilePicker() {
         if (uploading) {
@@ -168,6 +213,53 @@ export default function TopicPage() {
             // Allows the same file to be selected again
             // if an upload fails.
             event.target.value = "";
+        }
+    }
+
+    async function handleStudyMaterialClick(
+        materialType: StudyMaterialType
+    ) {
+        const existingMaterial =
+            studyMaterials.find(
+                (material) =>
+                    material.materialType === materialType
+            );
+
+        if (existingMaterial) {
+            router.push(
+                `/courses/${courseId}/topics/${topicId}/study-materials/${materialType.toLowerCase()}`
+            );
+
+            return;
+        }
+
+        try {
+            setGeneratingMaterial(materialType);
+            setMaterialError(null);
+
+            const generatedMaterial =
+                await generateStudyMaterial(
+                    courseId,
+                    topicId,
+                    materialType
+                );
+
+            setStudyMaterials((current) => [
+                ...current,
+                generatedMaterial,
+            ]);
+
+            router.push(
+                `/courses/${courseId}/topics/${topicId}/study-materials/${materialType.toLowerCase()}`
+            );
+        } catch (err) {
+            setMaterialError(
+                err instanceof Error
+                    ? err.message
+                    : "Study Material could not be generated."
+            );
+        } finally {
+            setGeneratingMaterial(null);
         }
     }
 
@@ -348,6 +440,11 @@ export default function TopicPage() {
                         processingStatus={topic.processingStatus}
                         processing={processing}
                         onProcess={handleProcessExistingPdf}
+                        studyMaterials={studyMaterials}
+                        loadingMaterials={loadingMaterials}
+                        generatingMaterial={generatingMaterial}
+                        materialError={materialError}
+                        onMaterialClick={handleStudyMaterialClick}
                     />
                 )}
             </div>
@@ -425,61 +522,73 @@ function StudyMaterials({
                             processingStatus,
                             processing,
                             onProcess,
+                            studyMaterials,
+                            loadingMaterials,
+                            generatingMaterial,
+                            materialError,
+                            onMaterialClick,
                         }: {
     processingStatus: Topic["processingStatus"];
     processing: boolean;
     onProcess: () => void;
+    studyMaterials: StudyMaterial[];
+    loadingMaterials: boolean;
+    generatingMaterial: StudyMaterialType | null;
+    materialError: string | null;
+    onMaterialClick: (materialType: StudyMaterialType) => void;
 }) {
-    const isReady =
-        processingStatus === "READY";
-
-    const materials = [
+    const materials: {
+        title: string;
+        description: string;
+        icon: typeof BookOpen;
+        type: StudyMaterialType;
+    }[] = [
         {
             title: "Summary",
-            description:
-                "A quick overview of the lecture.",
+            description: "A quick overview of the lecture.",
             icon: BookOpen,
+            type: "SUMMARY",
         },
         {
             title: "Standard Notes",
-            description:
-                "Clear notes for everyday studying.",
+            description: "Clear notes for everyday studying.",
             icon: NotebookText,
+            type: "STANDARD_NOTES",
         },
         {
             title: "Complete Notes",
-            description:
-                "A comprehensive version with full detail.",
+            description: "A comprehensive version with full detail.",
             icon: Layers3,
+            type: "COMPLETE_NOTES",
         },
         {
             title: "Flashcards",
-            description:
-                "Review the important concepts.",
+            description: "Review the important concepts.",
             icon: Brain,
+            type: "FLASHCARDS",
         },
         {
             title: "Quiz",
-            description:
-                "Test your understanding of the topic.",
+            description: "Test your understanding of the topic.",
             icon: CircleHelp,
+            type: "QUIZ",
         },
     ];
 
-    return (
-        <section className={styles.section}>
-            <div className={styles.sectionHeading}>
-                <div>
-                    <h2>Study Materials</h2>
+    const isReady = processingStatus === "READY";
 
-                    <p>
-                        Choose how you want to study this
-                        topic.
-                    </p>
+    if (!isReady) {
+        return (
+            <section className={styles.section}>
+                <div className={styles.sectionHeading}>
+                    <div>
+                        <h2>Study Materials</h2>
+                        <p>
+                            Choose how you want to study this topic.
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            {!isReady && (
                 <div className={styles.processingNotice}>
                     <div>
                         {processing && (
@@ -490,12 +599,12 @@ function StudyMaterials({
                         )}
 
                         <span>
-                {processingStatus === "FAILED"
-                    ? "The PDF could not be processed."
-                    : processing
-                        ? "Preparing your lecture material..."
-                        : "This PDF has not been processed yet."}
-            </span>
+                            {processingStatus === "FAILED"
+                                ? "The PDF could not be processed."
+                                : processing
+                                    ? "Preparing your lecture material..."
+                                    : "This PDF has not been processed yet."}
+                        </span>
                     </div>
 
                     {!processing &&
@@ -509,56 +618,83 @@ function StudyMaterials({
                             </button>
                         )}
                 </div>
+            </section>
+        );
+    }
+
+    return (
+        <section className={styles.section}>
+            <div className={styles.sectionHeading}>
+                <div>
+                    <h2>Study Materials</h2>
+                    <p>
+                        Choose how you want to study this topic.
+                    </p>
+                </div>
+            </div>
+
+            {materialError && (
+                <div className={styles.inlineError}>
+                    <AlertCircle size={17}/>
+                    {materialError}
+                </div>
             )}
 
-            <div className={styles.materialGrid}>
-                {materials.map((material) => {
-                    const Icon = material.icon;
+            {loadingMaterials ? (
+                <div className={styles.loadingState}>
+                    <LoaderCircle
+                        size={18}
+                        className={styles.spinner}
+                    />
+                    Loading Study Materials...
+                </div>
+            ) : (
+                <div className={styles.materialGrid}>
+                    {materials.map((material) => {
+                        const Icon = material.icon;
 
-                    return (
-                        <button
-                            key={material.title}
-                            type="button"
-                            className={
-                                styles.materialCard
-                            }
-                            disabled
-                        >
-                            <span
-                                className={
-                                    styles.materialIcon
+                        const exists = studyMaterials.some(
+                            (savedMaterial) =>
+                                savedMaterial.materialType === material.type
+                        );
+
+                        const generating =
+                            generatingMaterial === material.type;
+
+                        return (
+                            <button
+                                key={material.type}
+                                type="button"
+                                className={styles.materialCard}
+                                onClick={() =>
+                                    onMaterialClick(material.type)
                                 }
+                                disabled={generating}
                             >
-                                <Icon size={20}/>
-                            </span>
-
-                            <span
-                                className={
-                                    styles.materialContent
-                                }
-                            >
-                                <strong>
-                                    {material.title}
-                                </strong>
-
-                                <span>
-                                    {
-                                        material.description
-                                    }
+                                <span className={styles.materialIcon}>
+                                    <Icon size={20}/>
                                 </span>
-                            </span>
 
-                            <span
-                                className={
-                                    styles.comingSoon
-                                }
-                            >
-                                Coming next
-                            </span>
-                        </button>
-                    );
-                })}
-            </div>
+                                <span className={styles.materialContent}>
+                                    <strong>{material.title}</strong>
+
+                                    <span>
+                                        {material.description}
+                                    </span>
+                                </span>
+
+                                <span className={styles.comingSoon}>
+                                    {generating
+                                        ? "Creating..."
+                                        : exists
+                                            ? "Open"
+                                            : "Generate"}
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
         </section>
     );
 }

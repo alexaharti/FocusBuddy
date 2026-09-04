@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import com.alexaharti.focusbuddy.study.dto.UpdateStudyMaterialRequest;
 
 import java.util.List;
 
@@ -202,5 +203,74 @@ public class StudyMaterialService {
                     "The lecture must finish processing before generating Study Materials."
             );
         }
+    }
+
+    public StudyMaterialResponse updateMaterial(
+            Long ownerId,
+            Long courseId,
+            Long topicId,
+            StudyMaterialType materialType,
+            UpdateStudyMaterialRequest request
+    ) {
+        Topic topic = getOwnedTopic(
+                ownerId,
+                courseId,
+                topicId
+        );
+
+        if (materialType != StudyMaterialType.FLASHCARDS) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Only flashcards can currently be edited."
+            );
+        }
+
+        StudyMaterial material =
+                studyMaterialRepository
+                        .findByTopicIdAndMaterialType(
+                                topic.getId(),
+                                materialType
+                        )
+                        .orElseThrow(() ->
+                                new ResponseStatusException(
+                                        HttpStatus.NOT_FOUND,
+                                        "Study Material not found."
+                                )
+                        );
+
+        material.setContent(request.content());
+
+        StudyMaterial saved =
+                studyMaterialRepository.save(material);
+
+        return studyMaterialMapper.toResponse(saved);
+    }
+
+    public void deleteMaterial(
+            Long ownerId,
+            Long courseId,
+            Long topicId,
+            StudyMaterialType materialType
+    ) {
+        Topic topic = getOwnedTopic(
+                ownerId,
+                courseId,
+                topicId
+        );
+
+        StudyMaterial material =
+                studyMaterialRepository
+                        .findByTopicIdAndMaterialType(
+                                topic.getId(),
+                                materialType
+                        )
+                        .orElseThrow(() ->
+                                new ResponseStatusException(
+                                        HttpStatus.NOT_FOUND,
+                                        "Study Material not found."
+                                )
+                        );
+
+        studyMaterialRepository.delete(material);
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import com.alexaharti.focusbuddy.study.dto.UpdateStudyMaterialRequest;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Locale;
@@ -95,6 +97,54 @@ public class StudyMaterialController {
                         type
                 )
         );
+    }
+
+    @PutMapping("/{materialType}")
+    public ResponseEntity<StudyMaterialResponse> updateMaterial(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable Long courseId,
+            @PathVariable Long topicId,
+            @PathVariable String materialType,
+            @Valid @RequestBody UpdateStudyMaterialRequest request
+    ) {
+        Long userId =
+                currentUserService.getUserId(jwt);
+
+        StudyMaterialType type =
+                parseMaterialType(materialType);
+
+        return ResponseEntity.ok(
+                studyMaterialService.updateMaterial(
+                        userId,
+                        courseId,
+                        topicId,
+                        type,
+                        request
+                )
+        );
+    }
+
+    @DeleteMapping("/{materialType}")
+    public ResponseEntity<Void> deleteMaterial(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable Long courseId,
+            @PathVariable Long topicId,
+            @PathVariable String materialType
+    ) {
+        Long userId =
+                currentUserService.getUserId(jwt);
+
+        StudyMaterialType type =
+                parseMaterialType(materialType);
+
+        studyMaterialService.deleteMaterial(
+                userId,
+                courseId,
+                topicId,
+                type
+        );
+
+        return ResponseEntity.noContent().build();
     }
 
     private StudyMaterialType parseMaterialType(
