@@ -22,6 +22,8 @@ public class FocusSessionMapper {
                 session.getStatus(),
                 session.getPlannedDurationMinutes(),
                 session.getActualDurationMinutes(),
+                session.getAccumulatedFocusSeconds(),
+                session.getLastResumedAt(),
                 session.getStartedAt(),
                 session.getCompletedAt(),
                 session.getCreatedAt(),

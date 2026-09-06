@@ -1,0 +1,448 @@
+.page {
+    min-height: calc(100dvh - 72px);
+
+    padding: 18px clamp(28px, 4vw, 64px) clamp(40px, 4vw, 64px);
+
+    background: var(--cream);
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 24px;
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: var(--muted-text);
+
+    font: inherit;
+    font-size: 11px;
+    font-weight: 650;
+
+    cursor: pointer;
+
+    transition: color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.backLink:hover {
+    color: var(--deep-teal);
+    transform: translateX(-2px);
+}
+
+.header {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 8px;
+
+    color: var(--terracotta);
+
+    font-size: 11px;
+    font-weight: 750;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.title {
+    margin: 0;
+
+    color: var(--deep-teal);
+
+    font-size: clamp(36px, 4vw, 54px);
+    font-weight: 750;
+    letter-spacing: -1.7px;
+}
+
+.subtitle {
+    max-width: 580px;
+
+    margin: 9px 0 0;
+
+    color: var(--muted-text);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* -----------------------------
+   Main quick focus layout
+----------------------------- */
+
+.focusLayout {
+    width: min(100%, 1100px);
+
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.2fr)
+        minmax(280px, 0.8fr);
+
+    gap: clamp(24px, 4vw, 56px);
+
+    align-items: stretch;
+}
+
+/* -----------------------------
+   Timer panel
+----------------------------- */
+
+.timerPanel {
+    min-height: 480px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: clamp(28px, 4vw, 42px);
+
+    border: 1px solid rgba(23, 76, 79, 0.08);
+    border-radius: 26px;
+
+    background: var(--white);
+
+    box-shadow: 0 14px 40px rgba(36, 54, 53, 0.055);
+}
+
+.statusRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 50px;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: rgba(23, 76, 79, 0.25);
+}
+
+.runningDot {
+    background: var(--terracotta);
+
+    box-shadow: 0 0 0 5px rgba(201, 120, 92, 0.08);
+}
+
+.pausedDot {
+    background: #b59a63;
+
+    box-shadow: 0 0 0 5px rgba(181, 154, 99, 0.08);
+}
+
+.statusText {
+    color: var(--muted-text);
+
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.timerBlock {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 0 42px;
+}
+
+.timerDisplay {
+    color: var(--deep-teal);
+
+    font-family: var(--font-timer),
+    Georgia,
+    serif;
+
+    font-size: clamp(78px, 9vw, 118px);
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -3px;
+
+    text-align: center;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.timerLabel {
+    margin-top: 16px;
+
+    color: var(--muted-text);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+
+    padding-top: 22px;
+
+    border-top: 1px solid rgba(23, 76, 79, 0.09);
+}
+
+.primaryButton,
+.secondaryButton {
+    min-height: 44px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 0 18px;
+
+    border-radius: 12px;
+
+    font: inherit;
+    font-size: 12px;
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition: transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.primaryButton {
+    border: none;
+
+    background: var(--deep-teal);
+    color: var(--white);
+
+    box-shadow: 0 8px 22px rgba(23, 76, 79, 0.14);
+}
+
+.primaryButton:hover {
+    transform: translateY(-1px);
+
+    box-shadow: 0 10px 26px rgba(23, 76, 79, 0.18);
+}
+
+.secondaryButton {
+    border: 1px solid rgba(23, 76, 79, 0.13);
+
+    background: transparent;
+    color: var(--deep-teal);
+}
+
+.secondaryButton:hover {
+    transform: translateY(-1px);
+
+    background: rgba(23, 76, 79, 0.04);
+}
+
+.cancelButton {
+    width: fit-content;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    margin: 16px auto 0;
+    padding: 4px 7px;
+
+    border: none;
+    background: transparent;
+
+    color: var(--terracotta);
+
+    font: inherit;
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.cancelButton:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+/* -----------------------------
+   Finished state
+----------------------------- */
+
+.finishedContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 22px;
+
+    border-top: 1px solid rgba(23, 76, 79, 0.09);
+
+    text-align: center;
+}
+
+.finishedIcon {
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    margin-bottom: 14px;
+
+    border-radius: 15px;
+
+    background: rgba(168, 184, 154, 0.22);
+    color: var(--deep-teal);
+}
+
+.finishedContent p {
+    margin: 0 0 20px;
+
+    color: var(--muted-text);
+
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.finishedContent strong {
+    color: var(--deep-teal);
+}
+
+.finishedActions {
+    display: flex;
+    gap: 10px;
+}
+
+/* -----------------------------
+   Future mascot area
+----------------------------- */
+
+.mascotArea {
+    min-height: 480px;
+
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    overflow: hidden;
+
+    padding: 30px;
+}
+
+.mascotGround {
+    width: min(76%, 250px);
+    height: 28px;
+
+    position: absolute;
+    bottom: 58px;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+            ellipse,
+            rgba(23, 76, 79, 0.08) 0%,
+            rgba(23, 76, 79, 0.025) 48%,
+            transparent 75%
+    );
+
+    filter: blur(2px);
+}
+
+.mascotHint {
+    position: relative;
+    z-index: 1;
+
+    margin-bottom: 67px;
+
+    color: rgba(23, 76, 79, 0.25);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* -----------------------------
+   Responsive
+----------------------------- */
+
+@media (max-width: 900px) {
+    .focusLayout {
+        grid-template-columns: 1fr;
+    }
+
+    .mascotArea {
+        min-height: 250px;
+    }
+}
+
+@media (max-width: 720px) {
+    .page {
+        padding: 24px 17px 40px;
+    }
+
+    .header {
+        margin-bottom: 26px;
+    }
+
+    .timerPanel {
+        min-height: 430px;
+
+        padding: 25px 20px;
+    }
+
+    .statusRow {
+        margin-bottom: 34px;
+    }
+
+    .timerDisplay {
+        font-size: clamp(66px, 20vw, 88px);
+        letter-spacing: -2px;
+    }
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .primaryButton,
+    .secondaryButton {
+        width: 100%;
+    }
+
+    .finishedActions {
+        width: 100%;
+
+        flex-direction: column;
+    }
+
+    .mascotArea {
+        min-height: 210px;
+    }
+}
+
+.errorMessage {
+    margin: 12px 0 0;
+    color: #a34f3f;
+    font-size: 13px;
+    line-height: 1.5;
+}

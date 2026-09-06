@@ -84,6 +84,40 @@ public class FocusSessionController {
         );
     }
 
+    @PostMapping("/{sessionId}/pause")
+    public ResponseEntity<FocusSessionResponse>
+    pauseSession(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable Long sessionId
+    ) {
+        Long userId =
+                currentUserService.getUserId(jwt);
+
+        return ResponseEntity.ok(
+                focusSessionService.pauseSession(
+                        userId,
+                        sessionId
+                )
+        );
+    }
+
+    @PostMapping("/{sessionId}/resume")
+    public ResponseEntity<FocusSessionResponse>
+    resumeSession(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable Long sessionId
+    ) {
+        Long userId =
+                currentUserService.getUserId(jwt);
+
+        return ResponseEntity.ok(
+                focusSessionService.resumeSession(
+                        userId,
+                        sessionId
+                )
+        );
+    }
+
     @PostMapping("/{sessionId}/complete")
     public ResponseEntity<FocusSessionResponse>
     completeSession(

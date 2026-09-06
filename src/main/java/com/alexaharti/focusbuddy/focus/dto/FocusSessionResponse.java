@@ -13,6 +13,8 @@ public record FocusSessionResponse(
         FocusSessionStatus status,
         Integer plannedDurationMinutes,
         Integer actualDurationMinutes,
+        Long accumulatedFocusSeconds,
+        Instant lastResumedAt,
         Instant startedAt,
         Instant completedAt,
         Instant createdAt,

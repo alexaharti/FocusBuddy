@@ -54,6 +54,12 @@ public class FocusSession {
     @Column(name = "actual_duration_minutes")
     private Integer actualDurationMinutes;
 
+    @Column(name = "accumulated_focus_seconds", nullable = false)
+    private Long accumulatedFocusSeconds = 0L;
+
+    @Column(name = "last_resumed_at")
+    private Instant lastResumedAt;
+
     @Column(name = "started_at", nullable = false)
     private Instant startedAt;
 
@@ -72,6 +78,7 @@ public class FocusSession {
             nullable = false
     )
     private Instant updatedAt;
+
 
     @PrePersist
     protected void onCreate() {

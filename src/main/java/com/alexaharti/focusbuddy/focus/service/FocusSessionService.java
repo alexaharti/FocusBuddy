@@ -101,20 +101,31 @@ public class FocusSessionService {
                             );
         }
 
+        Instant now = Instant.now();
+
         FocusSession session =
                 new FocusSession();
 
         session.setUser(user);
         session.setCourse(course);
         session.setTopic(topic);
-        session.setSessionType(request.sessionType());
+
+        session.setSessionType(
+                request.sessionType()
+        );
+
         session.setStatus(
                 FocusSessionStatus.ACTIVE
         );
+
         session.setPlannedDurationMinutes(
                 request.plannedDurationMinutes()
         );
-        session.setStartedAt(Instant.now());
+
+        session.setAccumulatedFocusSeconds(0L);
+
+        session.setStartedAt(now);
+        session.setLastResumedAt(now);
 
         FocusSession saved =
                 focusSessionRepository.save(session);
@@ -148,7 +159,7 @@ public class FocusSessionService {
         );
     }
 
-    public FocusSessionResponse completeSession(
+    public FocusSessionResponse pauseSession(
             Long userId,
             Long sessionId
     ) {
@@ -164,25 +175,105 @@ public class FocusSessionService {
         ) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Only an active session can be completed."
+                    "Only an active session can be paused."
+            );
+        }
+
+        Instant now = Instant.now();
+
+        addCurrentActiveInterval(
+                session,
+                now
+        );
+
+        session.setStatus(
+                FocusSessionStatus.PAUSED
+        );
+
+        session.setLastResumedAt(null);
+
+        FocusSession saved =
+                focusSessionRepository.save(session);
+
+        return focusSessionMapper.toResponse(saved);
+    }
+
+    public FocusSessionResponse resumeSession(
+            Long userId,
+            Long sessionId
+    ) {
+        FocusSession session =
+                getOwnedSession(
+                        userId,
+                        sessionId
+                );
+
+        if (
+                session.getStatus()
+                        != FocusSessionStatus.PAUSED
+        ) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Only a paused session can be resumed."
+            );
+        }
+
+        session.setStatus(
+                FocusSessionStatus.ACTIVE
+        );
+
+        session.setLastResumedAt(
+                Instant.now()
+        );
+
+        FocusSession saved =
+                focusSessionRepository.save(session);
+
+        return focusSessionMapper.toResponse(saved);
+    }
+
+    public FocusSessionResponse completeSession(
+            Long userId,
+            Long sessionId
+    ) {
+        FocusSession session =
+                getOwnedSession(
+                        userId,
+                        sessionId
+                );
+
+        if (
+                session.getStatus()
+                        != FocusSessionStatus.ACTIVE
+                        &&
+                        session.getStatus()
+                                != FocusSessionStatus.PAUSED
+        ) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Only an active or paused session can be completed."
             );
         }
 
         Instant completedAt =
                 Instant.now();
 
-        long durationSeconds =
-                Duration.between(
-                        session.getStartedAt(),
-                        completedAt
-                ).getSeconds();
+        if (
+                session.getStatus()
+                        == FocusSessionStatus.ACTIVE
+        ) {
+            addCurrentActiveInterval(
+                    session,
+                    completedAt
+            );
+        }
+
+        long totalFocusSeconds =
+                session.getAccumulatedFocusSeconds();
 
         int durationMinutes =
-                (int) Math.max(
-                        1,
-                        Math.ceil(
-                                durationSeconds / 60.0
-                        )
+                calculateDurationMinutes(
+                        totalFocusSeconds
                 );
 
         session.setStatus(
@@ -192,6 +283,8 @@ public class FocusSessionService {
         session.setCompletedAt(
                 completedAt
         );
+
+        session.setLastResumedAt(null);
 
         session.setActualDurationMinutes(
                 durationMinutes
@@ -216,10 +309,13 @@ public class FocusSessionService {
         if (
                 session.getStatus()
                         != FocusSessionStatus.ACTIVE
+                        &&
+                        session.getStatus()
+                                != FocusSessionStatus.PAUSED
         ) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Only an active session can be cancelled."
+                    "Only an active or paused session can be cancelled."
             );
         }
 
@@ -231,10 +327,54 @@ public class FocusSessionService {
                 Instant.now()
         );
 
+        session.setLastResumedAt(null);
+
         FocusSession saved =
                 focusSessionRepository.save(session);
 
         return focusSessionMapper.toResponse(saved);
+    }
+
+    private void addCurrentActiveInterval(
+            FocusSession session,
+            Instant intervalEnd
+    ) {
+        Instant lastResumedAt =
+                session.getLastResumedAt();
+
+        if (lastResumedAt == null) {
+            return;
+        }
+
+        long intervalSeconds =
+                Math.max(
+                        0,
+                        Duration.between(
+                                lastResumedAt,
+                                intervalEnd
+                        ).getSeconds()
+                );
+
+        long currentTotal =
+                session.getAccumulatedFocusSeconds() == null
+                        ? 0L
+                        : session.getAccumulatedFocusSeconds();
+
+        session.setAccumulatedFocusSeconds(
+                currentTotal + intervalSeconds
+        );
+    }
+
+    private int calculateDurationMinutes(
+            long totalFocusSeconds
+    ) {
+        if (totalFocusSeconds <= 0) {
+            return 0;
+        }
+
+        return (int) Math.ceil(
+                totalFocusSeconds / 60.0
+        );
     }
 
     private FocusSession getOwnedSession(
